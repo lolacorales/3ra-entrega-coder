@@ -5,9 +5,7 @@ from app_coder.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path ('inicio/', inicio),
-    path ('registro/', registro),
-    path ('busqueda/', busqueda),
-    path ('nueva_receta/', nueva_receta),
-
-    path ('template1/', template1),
-    ]
+    path ('nuevo_libro/', nuevo_libro),
+    path ('nuevo_critico/', nuevo_critico),
+    path ('nueva_reseña/', nueva_reseña)
+]
