@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def inicio(request):
-    return render(request, 'app_coder/base.html')
+    return render(request, 'app_coder/inicio.html')
 
 def nuevo_libro(request):
     return render(request, 'app_coder/nuevo_libro.html')
