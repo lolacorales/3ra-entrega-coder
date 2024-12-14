@@ -5,10 +5,12 @@ from app_coder.forms import NuevoLibro, NuevaReseña, NuevoCritico
 from app_coder.models import *
 
 def inicio(request):
-    reseñas = reseña.objects.all ()
-    print (reseñas)    
     return render(request, 'app_coder/inicio.html')
 
+def reseñas(request):
+    reseñas = reseña.objects.all ()
+    print (reseñas)    
+    return render(request, 'app_coder/inicio.html', {"reseñas":reseñas})
 
 def nuevo_libro(request):
     if request.method == "POST":

@@ -7,24 +7,23 @@
         <h1> NUEVA RESEÑA </h1>
     </header>
 
-
-    <section id="scroll">
+    <section id="scroll" class="py-5">
         <div class="container px-5">
-            <div class="row gx-5 align-items-center">
-            
-                <form action = "" method = "POST"> 
-                    {% csrf_token %}
-                
-                    <table>
-                        {{ formulario_reseña.as_table }}
-                    </table>
-
-                    <input type="submit", value="Enviar">
-                </form>
-
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form action="" method="POST" class="p-4 border rounded bg-light shadow-sm"> 
+                        {% csrf_token %}
+                        <table class="w-100">
+                            <h3> Calificá tu libro a LOLOBOXD 📚</h3>
+                            {{ formulario_reseña.as_table }}
+                        </table>
+                        <div class="text-center mt-3">
+                            <input type="submit" value="Enviar" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
 
 {% endblock %}
-
