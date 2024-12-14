@@ -7,13 +7,24 @@
         <h1> NUEVA RESEÑA </h1>
     </header>
 
-        <section id="scroll">
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center">
-                <p>form.</p>
-                </div>
+
+    <section id="scroll">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+            
+                <form action = "" method = "POST"> 
+                    {% csrf_token %}
+                
+                    <table>
+                        {{ formulario_reseña.as_table }}
+                    </table>
+
+                    <input type="submit", value="Enviar">
+                </form>
+
             </div>
-        </section>
+        </div>
+    </section>
 
 {% endblock %}
 

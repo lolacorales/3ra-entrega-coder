@@ -11,7 +11,17 @@
     <section id="scroll">
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
-            <p>form.</p>
+            
+                <form action = "" method = "POST"> 
+                    {% csrf_token %}
+                
+                    <table>
+                        {{ formulario_critico.as_table }}
+                    </table>
+
+                    <input type="submit", value="Enviar">
+                </form>
+
             </div>
         </div>
     </section>
