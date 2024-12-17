@@ -1,5 +1,5 @@
 from django import forms
-from app_coder.models import libro, critico, reseña
+from app_coder.models import Libro, Critico, Reseña
 
 class NuevoLibro(forms.Form):
     titulo = forms.CharField(max_length=100)
@@ -13,5 +13,5 @@ class NuevoCritico(forms.Form):
 
 class NuevaReseña(forms.Form):
     texto = forms.CharField()
-    libro = forms.ModelChoiceField(queryset=libro.objects.all())
-    critico = forms.ModelChoiceField(queryset=critico.objects.all())
+    libro = forms.ModelChoiceField(queryset=Libro.objects.all())
+    critico = forms.ModelChoiceField(queryset=Critico.objects.all())
