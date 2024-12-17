@@ -5,15 +5,9 @@ from app_coder.forms import NuevoLibro, NuevaReseña, NuevoCritico
 from app_coder.models import *
 
 def inicio(request):
-    return render(request, 'app_coder/inicio.html')
-
-def reseñas(request):
-    query = request.GET.get('q')
-    if query:
-        reseñas = reseña.objects.filter(libro__icontains=query)
-    else:
         reseñas = reseña.objects.all()
-    return render(request, "app_coder/inicio.html", {"reseñas":reseñas, "query": query})
+        contexto = {"reseñas":reseñas}
+        return render(request, "app_coder/inicio.html", contexto)
 
 def nuevo_libro(request):
     if request.method == "POST":

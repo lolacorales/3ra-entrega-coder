@@ -29,26 +29,28 @@
 
 <div class="d-flex flex-column align-items-center mb-2">
     <form action="" method="GET">
-        <input type="text" name="q" placeholder="Buscar..." required>
+        <input type="text" name="q" placeholder="Harry Potter" required>
         <button type="submit">Buscar</button>
     </form>
 </div>
 
 
-{% if reseña %}
+{% if reseñas %}
     <div class="container">
         <table class="table">
             <thead>
                 <tr class="table-danger">
-                <th scope="col">Reseña</th>
                 <th scope="col">Libro</th>
+                <th scope="col">Reseña</th>
+                <th scope="col">Crítico</th>
             </tr>
             </thead>
             <tbody>
-                {% for reseña in reseña %}
+                {% for reseña in reseñas %}
                 <tr class="table-success">
+                <td>{{reseña.libro.titulo}}</td>
                 <td>{{reseña.texto}}</td>
-                <td>{{curso.libro}}</td>
+                <td>{{reseña.critico.nombre}}</td>
                 {% endfor %}
             </tr>
     
