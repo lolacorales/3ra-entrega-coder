@@ -8,9 +8,12 @@ def inicio(request):
     return render(request, 'app_coder/inicio.html')
 
 def reseñas(request):
-    reseñas = reseña.objects.all ()
-    print (reseñas)    
-    return render(request, 'app_coder/inicio.html', {"reseñas":reseñas})
+    query = request.GET.get('q')
+    if query:
+        reseñas = reseña.objects.filter(libro__icontains=query)
+    else:
+        reseñas = reseña.objects.all()
+    return render(request, "app_coder/inicio.html", {"reseñas":reseñas, "query": query})
 
 def nuevo_libro(request):
     if request.method == "POST":

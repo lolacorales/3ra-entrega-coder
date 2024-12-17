@@ -27,10 +27,38 @@
     </div>
 </div>
 
-{% for reseña in reseñas %}
-    <div>
-        {{ reseña.texto }}
+<div class="d-flex flex-column align-items-center mb-2">
+    <form action="" method="GET">
+        <input type="text" name="q" placeholder="Buscar..." required>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+
+{% if reseña %}
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr class="table-danger">
+                <th scope="col">Reseña</th>
+                <th scope="col">Libro</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for reseña in reseña %}
+                <tr class="table-success">
+                <td>{{reseña.texto}}</td>
+                <td>{{curso.libro}}</td>
+                {% endfor %}
+            </tr>
+    
+            </tbody>
+        </table>
     </div>
+{% else %}
+    <p class="text-center fs-4 text-danger">No se encontraron reseñas que coincidan con "{{ query }}"</p>
+{% endif %}
+
 
     <!-- Content section 1 -->
     <section id="scroll">
@@ -39,6 +67,6 @@
             </div>
         </div>
     </section>
-{% endfor %}
+
 
 {% endblock %}
