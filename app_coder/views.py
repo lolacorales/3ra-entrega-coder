@@ -10,14 +10,6 @@ def inicio(request):
         return render(request, "app_coder/inicio.html", contexto)
     
 
-# def inicio(request):
-#     query = request.GET.get('q')
-#     if query:
-#         reseñas = Reseña.objects.filter(libro_ = query)
-#     else:
-#         reseñas = Reseña.objects.all()
-#     return render(request, "app_coder/inicio.html", {"reseñas"=reseñas, "query"=query}
-
 def inicio(request):
     query = request.GET.get('q')
     if query:
@@ -39,7 +31,7 @@ def nuevo_libro(request):
         print(formulario)
         if formulario.is_valid:
             informacion = formulario.cleaned_data
-            nuevolibro = libro (titulo = informacion['titulo'], año = informacion ['año'], autor = informacion ['autor'])
+            nuevolibro = Libro (titulo = informacion['titulo'], año = informacion ['año'], autor = informacion ['autor'])
             nuevolibro.save()
             return inicio(request)
     else:
@@ -52,7 +44,7 @@ def nuevo_critico(request):
         print(formulario_critico)
         if formulario_critico.is_valid:
             informacion_critico = formulario_critico.cleaned_data
-            nuevocritico = critico (nombre = informacion_critico['nombre'], email = informacion_critico ['email'])
+            nuevocritico = Critico (nombre = informacion_critico['nombre'], email = informacion_critico ['email'])
             nuevocritico.save()
             return inicio(request)
     else:
