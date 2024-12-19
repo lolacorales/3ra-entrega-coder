@@ -19,7 +19,7 @@ def inicio(request):
     context = {
         "reseñas": reseñas,
         "query": query,
-        "no_results": not reseñas.exists() if query else False  # Indicates if there are no results
+        "no_results": not reseñas.exists() if query else False  
     }
     return render(request, "app_coder/inicio.html", context)
 
