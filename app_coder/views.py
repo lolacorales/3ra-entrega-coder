@@ -10,13 +10,27 @@ def inicio(request):
         return render(request, "app_coder/inicio.html", contexto)
     
 
+# def inicio(request):
+#     query = request.GET.get('q')
+#     if query:
+#         reseñas = Reseña.objects.filter(libro_ = query)
+#     else:
+#         reseñas = Reseña.objects.all()
+#     return render(request, "app_coder/inicio.html", {"reseñas"=reseñas, "query"=query}
+
 def inicio(request):
     query = request.GET.get('q')
     if query:
-        reseñas = Reseña.objects.filter(libro_ = query)
+        reseñas = Reseña.objects.filter(libro__titulo__icontains=query)
     else:
         reseñas = Reseña.objects.all()
-    return render(request, "app_coder/inicio.html", {"reseñas"=reseñas, "query"=query}
+    context = {
+        "reseñas": reseñas,
+        "query": query,
+        "no_results": not reseñas.exists() if query else False  # Indicates if there are no results
+    }
+    return render(request, "app_coder/inicio.html", context)
+
 
 
 def nuevo_libro(request):
@@ -51,7 +65,7 @@ def nueva_reseña(request):
         print(formulario_reseña)
         if formulario_reseña.is_valid:
             informacion_reseña = formulario_reseña.cleaned_data
-            nuevareseña = critico (texto = informacion_reseña['texto'], libro = informacion_reseña ['libro'], critico = informacion_reseña ['critico'])
+            nuevareseña = Reseña(texto = informacion_reseña['texto'], libro = informacion_reseña ['libro'], critico = informacion_reseña ['critico'])
             nuevareseña.save()
             return inicio(request)
     else:
