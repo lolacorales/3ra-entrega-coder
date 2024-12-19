@@ -23,7 +23,7 @@
         <p class="lead mb-0">
             Explora las opiniones de otros lectores, comparte tus pensamientos y sé parte de nuestra comunidad crítica.
         </p>
-        Buscá el libro que quieras:   
+        Descubrí:   
     </div>
 </div>
 
@@ -43,7 +43,8 @@
                 <th scope="col">Libro</th>
                 <th scope="col">Reseña</th>
                 <th scope="col">Crítico</th>
-            </tr>
+                <th scope="col">Acciones</th>
+                </tr>
             </thead>
             <tbody>
                 {% for reseña in reseñas %}
@@ -51,6 +52,10 @@
                 <td>{{reseña.libro.titulo}}</td>
                 <td>{{reseña.texto}}</td>
                 <td>{{reseña.critico.nombre}}</td>
+                <td>
+                <a class = "btn btn-danger" href = "{% url 'eliminar_reseña' reseña.pk %}"> Eliminar </a>
+                <a class = "btn btn-warning" href = "{% url 'editar_reseña' reseña.pk %}"> Editar </a> 
+                </td>                
                 {% endfor %}
             </tr>
     

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import Template, Context, loader
-from django.shortcuts import render
+from django.shortcuts import redirect, render, get_object_or_404
 from app_coder.forms import NuevoLibro, NuevaReseña, NuevoCritico
 from app_coder.models import *
 
@@ -19,7 +19,7 @@ def inicio(request):
     context = {
         "reseñas": reseñas,
         "query": query,
-        "no_results": not reseñas.exists() if query else False  
+        "no_results": not reseñas.exists() if query else False
     }
     return render(request, "app_coder/inicio.html", context)
 
@@ -63,3 +63,38 @@ def nueva_reseña(request):
     else:
         formulario_reseña = NuevaReseña()
     return render(request, 'app_coder/nueva_reseña.html', {"formulario_reseña": formulario_reseña})
+
+def eliminar_reseña(request, pk):
+    reseña = Reseña.objects.get(pk=pk)
+    reseña.delete ()
+    return redirect("Inicio")
+
+
+# def editar_reseña(request, pk):
+#     reseña = Reseña.objects.get(pk=pk)
+#     if request.method == "POST":
+#         reseña_editada = NuevaReseña(request.POST)
+#         if reseña_editada.is_valid():
+#                 info_limpia=reseña_editada.cleaned_data
+#                 reseña.texto=info_limpia ["texto"]
+#                 reseña.libro=info_limpia ["libro"]
+#                 reseña.critico=info_limpia ["critico"]
+#                 reseña.save()
+#         return redirect ("inicio")
+#     else:
+#         reseña_editada = nueva_reseña(initial = {"texto":reseña.texto, "libro":reseña.libro, "critico":reseña.critico})
+#         return render (request, "app_coder/editar_resena.html",{"reseña_editada":reseña_editada})
+    
+
+def editar_reseña(request, pk):
+    reseña = get_object_or_404(Reseña, pk=pk)
+    
+    if request.method == "POST":
+        reseña_editada = NuevaReseña(request.POST, instance=reseña)
+        
+        if reseña_editada.is_valid():
+                reseña_editada.save()
+                return redirect ("inicio")
+    else:
+        reseña_editada = nueva_reseña(instance = reseña)
+        return render (request, "app_coder/editar_resena.html",{"reseña_editada":reseña_editada})

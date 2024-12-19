@@ -1,0 +1,28 @@
+{% extends "app_coder/base.html" %}
+{% load static %}
+
+{% block contenido %}
+    <header class="masthead text-center text-white">
+        <h1> EDITAR RESEÑA </h1>
+    </header>
+
+    <section id="scroll" class="py-5">
+        <div class="container px-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form action="" method="POST" class="p-4 border rounded bg-light shadow-sm"> 
+                        {% csrf_token %}
+                        <table class="w-100">
+                            <h3> ¿Cambiaste de opinión? modificá tu reseña</h3>
+                            {{ form.as_table }}
+                        </table>
+                        <div class="text-center mt-3">
+                            <input type="submit" value="Enviar" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
