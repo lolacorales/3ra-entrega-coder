@@ -3,7 +3,7 @@
 
 {% block contenido %}
     <header class="masthead text-center text-white">
-        <h1> EDITAR RESEÑA </h1>
+        <h1> EDITAR LIBRO </h1>
     </header>
 
     <section id="scroll" class="py-5">
@@ -13,11 +13,12 @@
                     <form action="" method="POST" class="p-4 border rounded bg-light shadow-sm"> 
                         {% csrf_token %}
                         <table class="w-100">
-                            <h3> ¿Cambiaste de opinión? modificá tu reseña</h3>
-                            {{ form.as_table }}
+                            <h3> Modifica tu libro</h3>
+                            {{ formulario_libro.as_p }}
                         </table>
                         <div class="text-center mt-3">
-                            <input type="submit" value="Enviar" class="btn btn-primary">
+                            <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                            <a href="{% url 'Inicio' %}">Cancelar</a>
                         </div>
                     </form>
                 </div>

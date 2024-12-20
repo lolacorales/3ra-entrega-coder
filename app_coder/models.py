@@ -2,7 +2,7 @@ from django.db import models
 
 class Libro(models.Model):
     titulo = models.CharField(max_length=100, unique=False)
-    año = models.PositiveIntegerField(help_text="2020")
+    año = models.PositiveIntegerField()
     autor = models.CharField(max_length=100, unique=False)
     
     def __str__(self):

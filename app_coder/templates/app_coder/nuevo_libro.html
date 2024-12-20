@@ -15,7 +15,7 @@
                         {% csrf_token %}
                         <table class="w-100">
                             <h3> Agregá tu libro a LOLOBOXD 📚</h3>
-                            {{ formulario.as_table }}
+                            {{ formulario_libro.as_table }}
                         </table>
                         <div class="text-center mt-3">
                             <input type="submit" value="Enviar" class="btn btn-primary">
@@ -25,5 +25,51 @@
             </div>
         </div>
     </section>
+
+
+<div class="py-5 bg-light text-center">
+    <div class="container px-5">
+        <p class="lead mb-0">
+            Explora libros de otros lectores:
+        </p>
+    </div>
+</div>
+
+<div class="d-flex flex-column align-items-center mb-2">
+    <form action="" method="GET">
+        <input type="text" name="q" placeholder="Harry Potter" required>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+{% if libro %}
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr class="table-danger">
+                <th scope="col">Autor</th>
+                <th scope="col">Libro</th>
+                <th scope="col">Año de publicación</th>
+                <th scope="col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for libro in libros %}
+                <tr class="table-success">
+                <td>{{libro.autor}}</td>
+                <td>{{libro.titulo}}</td>
+                <td>{{libro.año}}</td>
+                <td>
+                <a class = "btn btn-danger" href = "{% url 'eliminar_libro' reseña.pk %}"> Eliminar </a>
+                <a class = "btn btn-warning" href = "{% url 'editar_libro' reseña.pk %}"> Editar </a> 
+                </td>                
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p class="text-center fs-4 text-danger">No se encontraron libros que coincidan con "{{ query }}"</p>
+{% endif %}
 
 {% endblock %}

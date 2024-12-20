@@ -1,10 +1,9 @@
-
 {% extends "app_coder/base.html" %}
 {% load static %}
 
 {% block contenido %}
     <header class="masthead text-center text-white">
-        <h1> NUEVO CRITICO </h1>
+        <h1> EDITAR RESEÑA </h1>
     </header>
 
     <section id="scroll" class="py-5">
@@ -14,11 +13,12 @@
                     <form action="" method="POST" class="p-4 border rounded bg-light shadow-sm"> 
                         {% csrf_token %}
                         <table class="w-100">
-                            <h3> Crea tu crítico en LOLOBOXD 📚</h3>
-                            {{ formulario_critico.as_table}}
+                            <h3> ¿Cambiaste de opinión? modificá tu reseña</h3>
+                            {{ formulario.as_p }}
                         </table>
                         <div class="text-center mt-3">
-                            <input type="submit" value="Enviar" class="btn btn-primary">
+                            <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                            <a href="{% url 'Inicio' %}">Cancelar</a>
                         </div>
                     </form>
                 </div>

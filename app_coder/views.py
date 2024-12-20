@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import Template, Context, loader
 from django.shortcuts import redirect, render, get_object_or_404
-from app_coder.forms import NuevoLibro, NuevaReseña, NuevoCritico
+from app_coder.forms import FormularioLibro, FormularioReseña, FormularioCritico
 from app_coder.models import *
 
 def inicio(request):
@@ -10,6 +10,7 @@ def inicio(request):
         return render(request, "app_coder/inicio.html", contexto)
     
 
+#####################  CRUD RESEÑAS  ###################################
 def inicio(request):
     query = request.GET.get('q')
     if query:
@@ -23,78 +24,85 @@ def inicio(request):
     }
     return render(request, "app_coder/inicio.html", context)
 
-
-
-def nuevo_libro(request):
-    if request.method == "POST":
-        formulario = NuevoLibro(request.POST)
-        print(formulario)
-        if formulario.is_valid:
-            informacion = formulario.cleaned_data
-            nuevolibro = Libro (titulo = informacion['titulo'], año = informacion ['año'], autor = informacion ['autor'])
-            nuevolibro.save()
-            return inicio(request)
+def nueva_reseña (request):
+    if request.method == 'POST':
+        formulario_reseña = FormularioReseña(request.POST)
+        if formulario_reseña.is_valid():
+            formulario_reseña.save()
+            return redirect ("Inicio")
     else:
-        formulario = NuevoLibro()
-    return render(request, 'app_coder/nuevo_libro.html', {"formulario": formulario})
-
-def nuevo_critico(request):
-    if request.method == "POST":
-        formulario_critico = NuevoCritico(request.POST)
-        print(formulario_critico)
-        if formulario_critico.is_valid:
-            informacion_critico = formulario_critico.cleaned_data
-            nuevocritico = Critico (nombre = informacion_critico['nombre'], email = informacion_critico ['email'])
-            nuevocritico.save()
-            return inicio(request)
-    else:
-        formulario_critico = NuevoCritico()
-    return render(request, 'app_coder/nuevo_critico.html', {"formulario_critico": formulario_critico})
-
-def nueva_reseña(request):
-    if request.method == "POST":
-        formulario_reseña = NuevaReseña(request.POST)
-        print(formulario_reseña)
-        if formulario_reseña.is_valid:
-            informacion_reseña = formulario_reseña.cleaned_data
-            nuevareseña = Reseña(texto = informacion_reseña['texto'], libro = informacion_reseña ['libro'], critico = informacion_reseña ['critico'])
-            nuevareseña.save()
-            return inicio(request)
-    else:
-        formulario_reseña = NuevaReseña()
-    return render(request, 'app_coder/nueva_reseña.html', {"formulario_reseña": formulario_reseña})
+        formulario_reseña = FormularioReseña()
+        return render(request, 'app_coder/nueva_reseña.html', {"formulario_reseña": formulario_reseña})
 
 def eliminar_reseña(request, pk):
     reseña = Reseña.objects.get(pk=pk)
     reseña.delete ()
     return redirect("Inicio")
 
-
-# def editar_reseña(request, pk):
-#     reseña = Reseña.objects.get(pk=pk)
-#     if request.method == "POST":
-#         reseña_editada = NuevaReseña(request.POST)
-#         if reseña_editada.is_valid():
-#                 info_limpia=reseña_editada.cleaned_data
-#                 reseña.texto=info_limpia ["texto"]
-#                 reseña.libro=info_limpia ["libro"]
-#                 reseña.critico=info_limpia ["critico"]
-#                 reseña.save()
-#         return redirect ("inicio")
-#     else:
-#         reseña_editada = nueva_reseña(initial = {"texto":reseña.texto, "libro":reseña.libro, "critico":reseña.critico})
-#         return render (request, "app_coder/editar_resena.html",{"reseña_editada":reseña_editada})
-    
-
 def editar_reseña(request, pk):
-    reseña = get_object_or_404(Reseña, pk=pk)
-    
+    reseña = get_object_or_404(Reseña, pk=pk)  
     if request.method == "POST":
-        reseña_editada = NuevaReseña(request.POST, instance=reseña)
-        
-        if reseña_editada.is_valid():
-                reseña_editada.save()
-                return redirect ("inicio")
+        formulario = FormularioReseña(request.POST, instance=reseña)  
+        if formulario.is_valid():
+            formulario.save()  
+            return redirect("Inicio")
     else:
-        reseña_editada = nueva_reseña(instance = reseña)
-        return render (request, "app_coder/editar_resena.html",{"reseña_editada":reseña_editada})
+        formulario = FormularioReseña(instance=reseña)  
+    return render(request, "app_coder/editar_reseña.html", {"formulario": formulario})
+
+
+
+############### CRUD LIBROS ###############
+
+def nuevo_libro(request):
+    if request.method == 'POST':
+        formulario_libro = FormularioLibro(request.POST)
+        if formulario_libro.is_valid():
+            formulario_libro.save()
+            return redirect ("Inicio")
+    else:
+        formulario_libro = FormularioLibro()
+    return render(request, 'app_coder/nuevo_libro.html', {"formulario_libro": formulario_libro})
+
+
+def buscar_libro(request):
+    query = request.GET.get('q')
+    if query:
+        libros = Libro.objects.filter(titulo__icontains=query)
+    else:
+        libros = Libro.objects.all()
+    context = {
+        "libros": libros,
+        "query": query,
+        "no_results": not libros.exists() if query else False
+    }
+    return render(request, "app_coder/inicio.html", context)
+
+def eliminar_libro(request, pk):
+    libro = Libro.objects.get(pk=pk)
+    libro.delete ()
+    return redirect("Inicio")
+
+def editar_libro(request, pk):
+    libro = get_object_or_404(Libro, pk=pk)  
+    if request.method == "POST":
+        formulario_libro = FormularioLibro(request.POST, instance=libro)  
+        if formulario_libro.is_valid():
+            formulario_libro.save()  
+            return redirect("Inicio")
+    else:
+        formulario_libro = FormularioReseña(instance=libro)  
+    return render(request, "app_coder/editar_libro.html", {"formulario_libro": formulario_libro})
+
+
+############### CRUD CRITICOS ############### 
+
+def nuevo_critico (request):
+    if request.method == 'POST':
+        formulario_critico = FormularioCritico(request.POST)
+        if formulario_critico.is_valid():
+            formulario_critico.save()
+            return redirect ("Inicio")
+    else:
+        formulario_critico = FormularioCritico()
+    return render(request, 'app_coder/nuevo_critico.html', {"formulario_critico": formulario_critico})
