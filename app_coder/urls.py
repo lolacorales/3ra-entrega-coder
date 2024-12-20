@@ -12,5 +12,6 @@ urlpatterns = [
     path('editar_reseña/<int:pk>', editar_reseña, name="editar_reseña"),
     path ('eliminar_libro/<int:pk>', eliminar_libro, name="eliminar_libro"),
     path('editar_libro/<int:pk>', editar_libro, name="editar_libro"),
+    path('buscar_libro/', buscar_libro, name="buscar_libro"),
 
 ]
